@@ -13,7 +13,7 @@
   Publisher: <%= book.publisher %><br/>
   Edition: <%= book.edition %><br/>
   Details: <%= book.details %><br/>
-  Summary:<br/><%= truncate book.summary, 500 %><br/>
+  Summary:<br/><%= sanitize truncate book.summary, 500 %><br/>
   <br/>
   <%= link_to 'Show', book %><br/>
   <%= link_to 'Edit', edit_book_path(book) %><br/>

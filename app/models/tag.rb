@@ -5,4 +5,7 @@ class Tag < ActiveRecord::Base
   def self.tags_with_counts
     Tagging.joins(:tag).group(:tag).count
   end
+  def to_param
+    return name
+  end
 end

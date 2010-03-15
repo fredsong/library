@@ -9,7 +9,7 @@ module ApplicationHelper
     ret = ""
     tag_counts.each do |tag, count|
       size = minsize+(count - 1)*(maxsize-minsize)/spread
-      ret << link_to(tag.name, 'tag', :style => "font-size: #{size.to_i}px")
+      ret << link_to(tag.name, tag, :style => "font-size: #{size.to_i}px")
     end
     ret.html_safe
   end

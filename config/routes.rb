@@ -4,6 +4,7 @@ Library::Application.routes.draw do |map|
       get :lookup
     end
   end
+  resources :tags
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
