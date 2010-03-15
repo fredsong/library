@@ -3,7 +3,17 @@ require 'open-uri'
 class Book < ActiveRecord::Base
   attr_accessor :cover_url
   has_attached_file :cover, :styles => { :small  => "150x250>" }
-  def to_param
+
+  has_many :taggings
+  has_many :tags, :through => :taggings, :dependent => :destroy
+
+  after_save :assign_tags  
+  attr_writer :tag_names  
+  def tag_names
+      @tag_names || tags.map(&:name).join(' ')
+  end
+
+  def slug
     slug = title.strip
 
     #blow away apostrophes
@@ -25,11 +35,16 @@ class Book < ActiveRecord::Base
     "#{id}-#{slug}"
   end
 
+  def to_param
+    slug
+  end
+
   def copies_remaining
     copies
   end
 
   private
+
   def upload_url
     unless cover_url.blank?
       uri = URI.parse cover_url
@@ -46,6 +61,14 @@ class Book < ActiveRecord::Base
   before_validation :upload_url
 
   validates_attachment_presence :cover
+
+  def assign_tags
+    if @tag_names
+      self.tags = @tag_names.split(/\s+/).map do |name|
+        Tag.find_or_create_by_name(name)
+      end  
+    end  
+  end  
 
   validates_numericality_of :copies, :greater_than => 0, :only_integer => true
   validates_uniqueness_of :isbn
