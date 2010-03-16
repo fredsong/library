@@ -1,5 +1,5 @@
 <div style="clear:both; width: 80%">
-  <h2><%= book.title %></h2>
+  <h2><%= link_to book.title, @book %></h2>
   <% unless book.subtitle.blank? %>
     <h3><%= book.subtitle %></h3>
   <% end %>
@@ -15,7 +15,7 @@
   Details: <%= book.details %><br/>
   Summary:<br/><%= sanitize truncate book.summary, 500 %><br/>
   <br/>
-  <%= link_to 'Show', book %><br/>
+  <%= %>
   <%= link_to 'Edit', edit_book_path(book) %><br/>
   <%= link_to 'Destroy', book, :confirm => 'Are you sure?', :method => :delete %><br/>
 </div>
