@@ -15,9 +15,9 @@
   Details: <%= book.details %><br/>
   Summary:<br/><%= sanitize truncate book.summary, 500 %><br/>
   <br/>
-  <%= %>
-  <%= link_to 'Edit', edit_book_path(book) %><br/>
-  <%= link_to 'Destroy', book, :confirm => 'Are you sure?', :method => :delete %><br/>
+
+  <%= link_to 'Edit', edit_book_path(book) if permitted_to? :edit, book %><br/>
+  <%= link_to 'Destroy', book, :confirm => 'Are you sure?', :method => :delete if permitted_to? :delete, book %><br/>
 </div>
 <div style="clear:both; width: 80%"></div>
 </div>

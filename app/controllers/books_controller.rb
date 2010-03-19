@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  filter_resource_access
+
   # GET /books
   # GET /books.xml
   def index
@@ -13,8 +15,6 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.xml
   def show
-    @book = Book.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @book }
@@ -24,7 +24,8 @@ class BooksController < ApplicationController
   # GET /books/new
   # GET /books/new.xml
   def new
-    @book = Book.new :copies => 1
+    puts permitted_to? :new, :book
+    @book.copies ||= 1
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,14 +35,11 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
-    @book = Book.find(params[:id])
   end
 
   # POST /books
   # POST /books.xml
   def create
-    @book = Book.new(params[:book])
-
     respond_to do |format|
       if @book.save
         format.html { redirect_to(@book, :notice => 'Book was successfully created.') }
@@ -56,8 +54,6 @@ class BooksController < ApplicationController
   # PUT /books/1
   # PUT /books/1.xml
   def update
-    @book = Book.find(params[:id])
-
     respond_to do |format|
       if @book.update_attributes(params[:book])
         format.html { redirect_to(@book, :notice => 'Book was successfully updated.') }
@@ -72,7 +68,6 @@ class BooksController < ApplicationController
   # DELETE /books/1
   # DELETE /books/1.xml
   def destroy
-    @book = Book.find(params[:id])
     @book.destroy
 
     respond_to do |format|
